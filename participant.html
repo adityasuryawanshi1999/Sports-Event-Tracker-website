@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+    $("#Schedule").click(function() {
+
+      document.getElementById("result").style.display="block";
+      document.getElementById('fetchResults').style.display="none";
+      closesubranches();
+      $.ajax({    //create an ajax request to display.php
+        type: "GET",
+        url: "php/schedule.php",
+        dataType: "html",   //expect html to be returned
+        success: function(response){
+            $("#result").html(response);
+            //alert(response);
+        }
+
+    });
+});
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$.ajax({ type: "GET",
+url: "php/pointstable.php",
+dataType: "html",   //expect html to be returned
+success: function(response){
+  $("#as-it-stands-div").html(response);
+    }});
+});
+
+</script>
+
+<script>
+$(document).ready(function() {
+
+   $("#Results").click(function() {
+
+     document.getElementById("showschedulebydate").style.display="none";
+     document.getElementById("result").style.display="none";
+     document.getElementById("choose-class-for-tally").style.display="none";
+     document.getElementById("fetchResults").style.display="flex";
+     $.ajax({    //create an ajax request to display.php
+       type: "GET",
+       url: "php/results.php",
+       dataType: "html",   //expect html to be returned
+       success: function(response){
+           $("#fetchResults").html(response);
+           //alert(response);
+       }
+
+   });
+});
+});
+</script>
+
+
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+    $("#Points-Table").click(function() {
+
+      document.getElementById('fetchResults').style.display="none";
+      closesubranches();
+      document.getElementById("result").style.display="block";
+      document.getElementById('showschedulebydate').style.display="none";
+
+      $.ajax({    //create an ajax request to display.php
+        type: "GET",
+        url: "php/pointstable.php",
+        dataType: "html",   //expect html to be returned
+        success: function(response){
+            $("#result").html(response);
+            //alert(response);
+        }
+
+    });
+});
+});
+
+</script>
+
+<script type="text/javascript">
+
+ $(document).ready(function() {
+
+    $("#Spurthi-Tally").click(function() {
+      document.getElementById('fetchResults').style.display="none";
+      document.getElementById("result").style.display="block";
+
+      $.ajax({    //create an ajax request to display.php
+        type: "GET",
+        url: "php/spurthitally.php",
+        dataType: "html",   //expect html to be returned
+        success: function(response){
+            $("#result").html(response);
+            //alert(response);
+        }
+
+    });
+});
+});
+</script>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    <title>VESIT SPORTS</title>
+    <link rel="stylesheet" href="/stylesheets/participant-styles.css">
+  </head>
+  <body>
+    <div class="main">
+        <div class="left-pane">
+              <div class="logo-container">
+                <button class="option-button" onclick="openNav()">☰</button>
+                <img class="logo" src="/img/logo2.png" alt="">
+                <span class="logo-font">VESIT SPORTS</span>
+              </div>
+              <div class="option-panel" id="toggle-this">
+                <button type="button" id="Schedule1" class="option" onclick="showScheduleByDate()">Schedule</button>
+                <button type="button" id="Points-Table" class="option">Points Table</button>
+                <button type="button" id="Spurthi-Tall" class="option" onclick="spurthitallyclick()">Spurthi Tally</button>
+                <button type="button" id="Results" class="option" onclick="fetchResults()">Results</button>
+                <button type="button" id="VPL" class="option">VPL</button>
+                <button type="button" id="VCL" class="option">VCL</button>
+                <button type="button" class="option2" onclick="closeNav()">Close</button>
+              </div>
+        </div>
+        <div class="right-pane">
+            <div class="ajax" id="result">
+                <span>Nothing to display at the moment :)</span>
+            </div>
+            <div id="choose-class-for-tally" class="choose-class-for-tally">
+            <span>Choose class for tally</span>
+                <select class="dropdown" onchange='showPointsByClass(this.value)'>
+                    <option value="D6">D6</option>
+                    <option value="D7">D7</option>
+                    <option value="D8">D8</option>
+                    <option value="D9">D9</option>
+                </select>
+                <button class="showall" id="Spurthi-Tally">Show All</button>
+            </div>
+            <div class="show-schedule-by-date" id="showschedulebydate">
+                <label for="choosedate">Please select the desired class</label>
+                <select class="dropdown" name="choosedate" onchange="showScheduleByClass(this.value)">
+                  <option value="D6">D6</option>
+                  <option value="D7">D7</option>
+                  <option value="D8">D8</option>
+                  <option value="D9">D9</option>
+                  <option value="D11A">D11A</option>
+                </select>
+                <button class="showall" id="Schedule">Show All</button>
+            </div>
+            <div class="fetchResults" id="fetchResults">
+              <span>Results will be displayed here</span>
+            </div>
+        </div>
+
+        <div class="as-it-stands" id="as-it-stands">
+          <span style="margin-left:auto;margin-right:auto;margin-top:10px;">AS IT STANDS(POINTS TABLE)</span>
+          <div class="as-it-stands-div" id="as-it-stands-div">
+
+          </div>
+        </div>
+
+    </div>
+
+
+
+
+    <script type="text/javascript">
+        function openNav(){
+          document.getElementById("toggle-this").style.display="flex";
+        }
+        function closeNav()
+        {
+          document.getElementById("toggle-this").style.display="none";
+        }
+
+    </script>
+    <script type="text/javascript">
+        function spurthitallyclick() {
+          document.getElementById('fetchResults').style.display="none";
+          document.getElementById("result").style.display="none";
+          document.getElementById("showschedulebydate").style.display="none";
+          document.getElementById("choose-class-for-tally").style.display="flex";
+        }
+
+    </script>
+    <script type="text/javascript">
+      function closesubranches(){
+        document.getElementById('choose-class-for-tally').style.display="none";
+      }
+
+    </script>
+    <script type="text/javascript">
+      function showScheduleByDate() {
+        document.getElementById('fetchResults').style.display="none";
+        document.getElementById('result').style.display="none";
+        document.getElementById('showschedulebydate').style.display="flex";
+      }
+    </script>
+
+    <script>
+function showPointsByClass(str) {
+  var xhttp;
+  if (str == "") {
+    document.getElementById("result").innerHTML = "";
+    return;
+  }
+  xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      document.getElementById("result").innerHTML = this.responseText;
+    }
+  };
+  xhttp.open("GET","php/showPointsByClass.php?q="+str, true);
+  xhttp.send();
+}
+  </script>
+
+
+
+  <script>
+function showScheduleByClass(str) {
+var xhttp;
+if (str == "") {
+  document.getElementById("result").innerHTML = "";
+  return;
+}
+xhttp = new XMLHttpRequest();
+xhttp.onreadystatechange = function() {
+  if (this.readyState == 4 && this.status == 200) {
+    document.getElementById("result").innerHTML = this.responseText;
+  }
+};
+xhttp.open("GET","php/showScheduleByClass.php?q="+str, true);
+xhttp.send();
+}
+</script>
+
+  </body>
+</html>
